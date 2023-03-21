@@ -5,7 +5,6 @@ import Peer from 'simple-peer';
 const SocketContext = createContext();
 
 const socket = io('https://webrtc-backend-ccg5py.dauqu.host');
-// const socket = io('https://warm-wildwood-81069.herokuapp.com');
 
 const ContextProvider = ({ children }) => {
   const [callAccepted, setCallAccepted] = useState(false);
@@ -20,7 +19,7 @@ const ContextProvider = ({ children }) => {
   const connectionRef = useRef();
 
   useEffect(() => {
-    navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+    navigator.mediaDevices.getUserMedia({ video: true })
       .then((currentStream) => {
         setStream(currentStream);
 
@@ -74,9 +73,7 @@ const ContextProvider = ({ children }) => {
 
   const leaveCall = () => {
     setCallEnded(true);
-
     connectionRef.current.destroy();
-
     window.location.reload();
   };
 

@@ -2,50 +2,42 @@ import React, { useContext } from 'react';
 import { Grid, Typography, Paper, makeStyles } from '@material-ui/core';
 
 import { SocketContext } from '../Context';
-
-const useStyles = makeStyles((theme) => ({
-  video: {
-    width: '550px',
-    [theme.breakpoints.down('xs')]: {
-      width: '300px',
-    },
-  },
-  gridContainer: {
-    justifyContent: 'center',
-    [theme.breakpoints.down('xs')]: {
-      flexDirection: 'column',
-    },
-  },
-  paper: {
-    padding: '10px',
-    border: '2px solid black',
-    margin: '10px',
-  },
-}));
+import "./videoplayer.css";
 
 const VideoPlayer = () => {
   const { name, callAccepted, myVideo, userVideo, callEnded, stream, call } = useContext(SocketContext);
-  const classes = useStyles();
+
 
   return (
-    <Grid container className={classes.gridContainer}>
-      {stream && (
-        <Paper className={classes.paper}>
-          <Grid item xs={12} md={6}>
-            <Typography variant="h5" gutterBottom>{name || 'Name'}</Typography>
-            <video playsInline muted ref={myVideo} autoPlay className={classes.video} />
-          </Grid>
-        </Paper>
+    <div className={"mainarea"}>
+      {/* {stream && ( */}
+      {(
+        <div className={"user_area"}>
+
+          {/* my video area  */}
+          <div className={`my_video_area`} style={{
+            width: callAccepted ? "180px" : "100%",
+            height: callAccepted ? "150px" : "100%",
+            top: callAccepted ? " " : "0",
+            bottom: callAccepted ? "15px" : "0",
+            left: callAccepted ? "" : "0",
+            right: callAccepted ? "15px" : "0",
+          }}>
+            <span className='user_name'>{name || 'You'}</span>
+            <video playsInline muted ref={myVideo} autoPlay className={"myvideo"} />
+          </div>
+
+          {/* other user video area  */}
+          {callAccepted && (<div className={"user_video_area"} style={{
+            zIndex: 10,
+          }}>
+            <span className='other_user_name'>{(callAccepted && !callEnded) ? call.name : "name"}</span>
+            <video playsInline ref={userVideo} autoPlay className={"uservideo"} />
+          </div> )}
+        </div>
       )}
-      {callAccepted && !callEnded && (
-        <Paper className={classes.paper}>
-          <Grid item xs={12} md={6}>
-            <Typography variant="h5" gutterBottom>{call.name || 'Name'}</Typography>
-            <video playsInline ref={userVideo} autoPlay className={classes.video} />
-          </Grid>
-        </Paper>
-      )}
-    </Grid>
+
+    </div>
   );
 };
 
