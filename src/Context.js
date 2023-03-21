@@ -4,7 +4,7 @@ import Peer from 'simple-peer';
 
 const SocketContext = createContext();
 
-const socket = io('http://localhost:4000');
+const socket = io('https://webrtc-backend-ccg5py.dauqu.host');
 // const socket = io('https://warm-wildwood-81069.herokuapp.com');
 
 const ContextProvider = ({ children }) => {
